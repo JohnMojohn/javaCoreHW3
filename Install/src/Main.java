@@ -1,66 +1,27 @@
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
-    static StringBuilder log = new StringBuilder();
+    public static void dirCreate(String path) {
+        File Dir = new File(path);
+        if (Dir.mkdir())
+            log.append("Создан каталог - " + Dir.getAbsolutePath()).append("\n");
+    }
 
-    public static void main(String[] args) {
-
-        File srcDir = new File("/Users/admin/Games/src");
-        if (srcDir.mkdir())
-            log.append("Создан каталог - " + srcDir.getAbsolutePath()).append("\n");
-        File mainDir = new File("/Users/admin/Games/src/main");
-        if (mainDir.mkdir())
-            log.append("Создан каталог - " + mainDir.getAbsolutePath()).append("\n");
-        File main = new File(mainDir, "Main.java");
+    public static void fileCreate(String dirPath) {
+        File main = new File(dirPath);
         try {
             if (main.createNewFile())
                 log.append("Создан файл - " + main.getName()).append("\n");
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
-        File utils = new File(mainDir, "Utils.java");
-        try {
-            if (utils.createNewFile())
-                log.append("Создан файл - " + utils.getName()).append("\n");
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-        }
-        File testDir = new File("/Users/admin/Games/src/test");
-        if (testDir.mkdir())
-            log.append("Создан каталог - " + testDir.getAbsolutePath()).append("\n");
-        File resDir = new File("/Users/admin/Games/res");
-        if (resDir.mkdir())
-            log.append("Создан каталог - " + resDir.getAbsolutePath()).append("\n");
-        File drawablesDir = new File("/Users/admin/Games/res/drawables");
-        if (drawablesDir.mkdir())
-            log.append("Создан каталог - " + drawablesDir.getAbsolutePath()).append("\n");
+    }
 
-        File vectorsDir = new File("/Users/admin/Games/res/vectors");
-        if (vectorsDir.mkdir())
-            log.append("Создан каталог - " + vectorsDir.getAbsolutePath()).append("\n");
-
-        File iconssDir = new File("/Users/admin/Games/res/icons");
-        if (iconssDir.mkdir())
-            log.append("Создан каталог - " + iconssDir.getAbsolutePath()).append("\n");
-
-        File savegamesDir = new File("/Users/admin/Games/savegames");
-        if (savegamesDir.mkdir())
-            log.append("Создан каталог - " + savegamesDir.getAbsolutePath()).append("\n");
-
-        File tempDir = new File("/Users/admin/Games/temp");
-        if (tempDir.mkdir())
-            log.append("Создан каталог - " + tempDir.getAbsolutePath()).append("\n");
-
-        File temp = new File(tempDir, "temp.txt");
-        try {
-            if (temp.createNewFile())
-                log.append("Создан файл - " + temp.getName()).append("\n");
-
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-        }
-        try (FileWriter writer = new FileWriter(temp, true)) {
+    public static void tempWriter(String tempDir) {
+        try (FileWriter writer = new FileWriter(tempDir, true)) {
             if (log.isEmpty()) {
                 writer.write("Выполненных операций нет");
                 writer.append('\n');
@@ -69,6 +30,37 @@ public class Main {
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
+
+    }
+
+    static StringBuilder log = new StringBuilder();
+
+    public static void main(String[] args) {
+
+        List dirList = new ArrayList<>();
+        dirList.add("/Users/admin/Games/src");
+        dirList.add("/Users/admin/Games/src/main");
+        dirList.add("/Users/admin/Games/src/test");
+        dirList.add("/Users/admin/Games/res");
+        dirList.add("/Users/admin/Games/res/drawables");
+        dirList.add("/Users/admin/Games/res/vectors");
+        dirList.add("/Users/admin/Games/res/icons");
+        dirList.add("/Users/admin/Games/savegames");
+        dirList.add("/Users/admin/Games/temp");
+
+        List fileList = new ArrayList<>();
+
+        fileList.add("/Users/admin/Games/src/main/Main.java");
+        fileList.add("/Users/admin/Games/src/main/Utils.java");
+        fileList.add("/Users/admin/Games/temp/temp.txt");
+
+        for (int i = 0; i < dirList.size(); i++) {
+            dirCreate((String) dirList.get(i));
+        }
+        for (int i = 0; i < fileList.size(); i++) {
+            fileCreate((String) fileList.get(i));
+        }
+        tempWriter("/Users/admin/Games/temp/temp.txt");
 
     }
 
